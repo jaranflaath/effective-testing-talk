@@ -2,6 +2,7 @@ package com.flaath.testing.api;
 
 import com.flaath.testing.data.TaxDataRepository;
 import com.flaath.testing.domain.TaxResult;
+import com.flaath.testing.taxcalculation.TaxCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,11 +25,8 @@ public class TaxController {
         if (income == null) {
             throw new IllegalArgumentException("Invalid id");
         }
-        if (income >= 1000000) {
-            return new TaxResult(id, 0.01);
-        }
 
-        return new TaxResult(id, 0.50);
+        return TaxCalculator.calculate(id, income);
     }
 
 }
